@@ -1,0 +1,68 @@
+
+<!doctype html>
+<html lang="ar">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title> خطأ </title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this site -->
+    <link href="static/css/master.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light  nav-color" id="top">
+     <div class="container">
+        <a lang="en" class="navbar-brand text-white" href="index.html"> Hospital-X </a>
+
+        <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse  justify-content-end" id="navbarSupportedContent">
+              <ul class="navbar-nav  ">
+                <li class="nav-item ">
+                  <a title="login" class="nav-link nav_links" href="/login"> تسجيل الدخول <span class="sr-only">(current)</span></a>
+                </li>
+              </ul>
+        </div>
+
+     </div>
+  </nav>
+</header>
+<style media="screen">
+  .error{
+    width: 100% !important;
+    height: 90vh;
+  }
+  .con{
+    margin: 0% 1.1% 0% 1.1%;
+
+  }
+</style>
+
+<div class="con">
+  <div class="row">
+
+          <img src="{{ url_for('static' ,filename='img/404.png') }}" alt="not found" class="error">
+
+  </div>
+</div>
+
+<!-- JavaScript
+================================================== -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
