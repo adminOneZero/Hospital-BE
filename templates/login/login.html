@@ -14,6 +14,7 @@
     <link href="static/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this site -->
+    <link href="static/css/iziToast.min.css" rel="stylesheet">
     <link href="static/css/master.css" rel="stylesheet">
 
   </head>
@@ -31,7 +32,7 @@
         <div class="collapse navbar-collapse  justify-content-end" id="navbarSupportedContent">
               <ul class="navbar-nav  ">
                 <li class="nav-item ">
-                  <a title="login" class="nav-link nav_links" href="ظlogin"> تسجيل الدخول <span class="sr-only">(current)</span></a>
+                  <a title="login" class="nav-link nav_links" href="/login"> تسجيل الدخول <span class="sr-only">(current)</span></a>
                 </li>
               </ul>
         </div>
@@ -47,13 +48,13 @@
       <form class="" action="index.html" method="post">
         <div class="forms-inputs">
           <p title="username"> اسم المستخدم </p>
-          <input title="Enter username" type="text" name="" value="" placeholder=" اسم المستخدم ">
+          <input title="Enter username" type="text" name="username" value="" placeholder=" اسم المستخدم ">
         </div>
         <div class="forms-inputs">
           <p title="password"> كلمه المرور </p>
-          <input title="Enter password" type="password" name="" value="" placeholder=" كلمه المرور ">
+          <input title="Enter password" type="password" name="password" value="" placeholder=" كلمه المرور ">
         </div>
-        <input title="Go" type="submit" name="submit" value=" دخول "  class="btn btn-h mt-2">
+        <button id="login_btn" type="button" name="button" class="btn btn-h mt-2">  دخول  </button>
       </form>
 
   </div>
@@ -63,9 +64,10 @@
 
 <!-- JavaScript
 ================================================== -->
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="ajax/login.js"></script>
+<script src="static/js/jquery.min.js"></script>
+<script src="static/js/bootstrap.min.js"></script>
+<script src="static/js/iziToast.min.js"></script>
+<script src="static/ajax/login.js"></script>
 
 </body>
 

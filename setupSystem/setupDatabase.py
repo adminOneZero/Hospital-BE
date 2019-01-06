@@ -59,7 +59,7 @@ def config() :
         """)
         conn.commit()
         import hashlib
-        hash = hashlib.sha512()
+        hash = hashlib.sha512('admin')
         hash = hash.hexdigest()
         query = """INSERT INTO users (name,username,password,RoleID) VALUES ('User Controler','admin','{0}','1')""".format(hash)
         cursor.execute(query)

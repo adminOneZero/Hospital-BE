@@ -26,7 +26,9 @@ body{
 
 }
 
-
+.notify{
+  font-family: 'cairo', sans-serif !important;
+}
 
 h1,h2,h3{
   font-family: 'cairo-t', cursive;
@@ -145,4 +147,15 @@ h1,h2,h3{
 
 }
 
-/*********************doctors*****************/
+/*********************logout*****************/
+.text-center{
+  text-align: center !important;
+  position: relative !important;
+}
+
+.logout-close{
+  text-align: left !important;
+  float: left !important;
+  position: absolute !important;
+  left: 0;
+}

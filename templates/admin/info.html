@@ -1,0 +1,80 @@
+{% extends 'admin/includes/admin_header.html' %}
+{% block body %}
+
+
+        <div class="container-fluid">
+
+          <!-- Breadcrumbs-->
+          <ol class="breadcrumb table-bg text-white">
+            <li class="breadcrumb-item active"> عام </li>
+          </ol>
+
+<div class="section">
+  <div class="card-header table-bg text-right">
+    <i class="fas fa-table"></i>
+    معلومات الحساب
+  </div>
+
+  <div class="row">
+    <div class="col-xl-12">
+
+
+      <table class="info_table mb-3 " dir="rtl">
+        <thead>
+          <tr>
+            <th title="Information"> المعلومات </th>
+            <th title="Details"> التفاصيل </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td> الاسم بالكامل </td>
+            <td> محمد احمد </td>
+          </tr>
+          <tr>
+            <td> الاسم المستخدم </td>
+            <td> mohamed22 </td>
+          </tr>
+          <tr>
+            <td> صلاحيات المستخدم </td>
+            <td> مدير للنظام </td>
+          </tr>
+          <tr>
+            <td> درجه المستخدم </td>
+            <td> الدرجه الاولى </td>
+          </tr>
+          <tr>
+            <td> الرقم التعريفي </td>
+            <td> 129837697 </td>
+          </tr>
+          <tr>
+            <td> عددالمرضى </td>
+            <td> 12 </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+
+
+    </div>
+  </div>
+</div>
+
+
+        </div>
+        <!-- /.container-fluid -->
+
+        <!-- Sticky Footer -->
+        <footer class="sticky-footer">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright © Your Website 2018</span>
+            </div>
+          </div>
+        </footer>
+
+
+<script src="static/ajax/info.js"></script>
+{% endblock %}

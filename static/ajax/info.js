@@ -79,32 +79,4 @@ $.get("/flash" ,function(data, status){
 
 
 
-/**************************login************************/
-
-// login page
-$('#login_btn').on('click',function(){
-      var username =  $('form input[name=username]').val();
-      var password =  $('form input[name=password]').val();
-
-      // do login action
-      $.post("api/login", { username: username , password: password },
-      function(data, status){
-
-        if (status == 'success') {
-          if ('redirect' in data && 'message' in data) {
-            flash(data['message'],data['MSG_type'])
-            // check if need redirect
-            if( data['redirect'] == 'yes'){
-                // waite user notifying
-                window.setTimeout(function(){
-                    // go to user page
-                    window.location.href = "/admin";
-                }, 4000);
-            }
-
-          }
-
-        }
-
-      });
-});
+/**************************info************************/
