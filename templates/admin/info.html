@@ -28,29 +28,46 @@
         </thead>
         <tbody>
           <tr>
-            <td> الاسم بالكامل </td>
-            <td> محمد احمد </td>
+            <td><strong> الاسم بالكامل </strong></td>
+            {% if userInfo[1] != None %}
+            <td> {{userInfo[1]}} </td>
+
+            {% else %}
+            <td> فارغ </td>
+            {% endif %}
           </tr>
           <tr>
-            <td> الاسم المستخدم </td>
-            <td> mohamed22 </td>
+            <td><strong> الاسم المستخدم </strong></td>
+            {% if userInfo[3] != None %}
+            <td> {{userInfo[3]}} </td>
+
+            {% else %}
+            <td> فارغ </td>
+            {% endif %}
           </tr>
           <tr>
-            <td> صلاحيات المستخدم </td>
-            <td> مدير للنظام </td>
+            <td><strong> صلاحيات المستخدم </strong></td>
+            {% if userInfo[6] != None and userInfo[6] == 2 %}
+            <td> تعديل </td>
+
+            {% elif userInfo[6] != None and userInfo[6] == 4 %}
+            <td> تعديل - حذف</td>
+            {% elif userInfo[6] != None and userInfo[6] == 6 %}
+            <td> تعديل - حذف - اضافه</td>
+            {% else %}
+            <td> فارغ </td>
+            {% endif %}
           </tr>
+
           <tr>
-            <td> درجه المستخدم </td>
-            <td> الدرجه الاولى </td>
+            <td><strong> الرقم التعريفي </strong></td>
+            {% if userInfo[5] != None %}
+                <td> {{userInfo[5]}} </td>
+            {% else %}
+                <td> فارغ </td>
+            {% endif %}
           </tr>
-          <tr>
-            <td> الرقم التعريفي </td>
-            <td> 129837697 </td>
-          </tr>
-          <tr>
-            <td> عددالمرضى </td>
-            <td> 12 </td>
-          </tr>
+
         </tbody>
       </table>
 

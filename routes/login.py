@@ -29,7 +29,8 @@ def api_login():
     password = request.form['password']
 
     cursor , conn = Connection()
-    result = cursor.execute("SELECT * FROM users WHERE username = '%s'" %(username))
+    q = """SELECT * FROM users WHERE username = '%s'""" %(username)
+    result = cursor.execute(q)
     if result > 0:
         from hashlib import sha512
         hash = sha512(password.encode('utf8'))
