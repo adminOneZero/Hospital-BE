@@ -13,3 +13,13 @@ def admin_func():
     result = cursor.execute(q)
     userInfo = cursor.fetchone()
     return render_template('admin/info.html',userInfo=userInfo)
+
+@admin.route('/info')
+@login_required
+def info_func():
+    username = session['username']
+    cursor , conn = Connection()
+    q = """SELECT * FROM users WHERE username = '%s'""" %(username)
+    result = cursor.execute(q)
+    userInfo = cursor.fetchone()
+    return render_template('admin/info.html',userInfo=userInfo)
