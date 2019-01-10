@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Flask , render_template , session
+from flask import Flask , render_template , session ,jsonify , request
 from routes.admin import admin
 from routes.login import login
 from routes.flash import flash
@@ -20,5 +20,13 @@ app.config['SECRET_KEY'] = '915a2b304e26d134bebddfae78d1ac6542e87436c64d3d7e2e4e
 def page_not_found(e):
     return render_template('error/404.html')
 
+# 500 error
+@app.errorhandler(500) #
+def serner_error(e):
+    if request.method == 'POST':
+        return jsonify({'message':' فشل ','MSG_type':'dander'})
+
+
 if __name__ == '__main__':
     app.run(debug=True)
+    

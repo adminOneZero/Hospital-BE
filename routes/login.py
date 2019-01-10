@@ -24,7 +24,7 @@ def logoute():
 @login.route('/api/login',methods=['POST'])
 @logout_required
 def api_login():
-    current_app.logger.info(request.form)
+
     username = request.form['username']
     password = request.form['password']
 

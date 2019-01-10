@@ -1,0 +1,2 @@
+def isnum(arg):
+    pass

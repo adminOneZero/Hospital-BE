@@ -15,25 +15,15 @@ def Connection():
     return cursor , conn
 
 
-
-
-# print dir(cursor)
-#
-# cursor.execute("""
-# INSERT INTO users (name,username,password) VALUES ('User Controler','admin','admin');
-# ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
-# """)
-# print cursor._query()
-# print cursor._check_executed()
-# print "<<<Connecting...>>>"
-# cursor , conn = Connection()
 def config() :
     try:
         conn = db.connect(host = app.config['host'],user = app.config['user'],passwd = app.config['passwd'],db = app.config['db'] , charset='utf8',use_unicode=True)
         cursor = conn.cursor()
         print "<<<Creating users Tables>>>"
         # cursor.execute("create procedure dummy()")
-        cursor.execute("drop table if exists users")
+        cursor.execute("DROP TABLE IF EXISTS users")
+        conn.commit()
+        cursor.execute("DROP TABLE IF EXISTS ClinicList")
         conn.commit()
 
         cursor.execute("""
@@ -64,6 +54,13 @@ def config() :
         query = """INSERT INTO users (name,username,password,RoleID) VALUES ('User Controler','admin','{0}','1')""".format(hash)
         cursor.execute(query)
         conn.commit()
+        # clinics table
+        query = """
+                CREATE TABLE `ClinicList` ( `id` int(11) NOT NULL AUTO_INCREMENT, `clinic_id` INT(45) DEFAULT NULL, `ar_name` varchar(45) DEFAULT NULL,`en_name` varchar(45) DEFAULT NULL, `IsActive` varchar(45) DEFAULT NULL, `CreatedDate` datetime DEFAULT CURRENT_TIMESTAMP, `username` varchar (45) DEFAULT NULL, PRIMARY KEY (`id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+            """
+        cursor.execute(query)
+        conn.commit()
+
         # print has.sha1('admin')
         print "All is Done enjoy ^_^"
     except NameError as e:

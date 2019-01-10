@@ -117,11 +117,7 @@ $(document).on('click', '.trigger', function (event) {
 
 });
 
-// tooltipster Object
-$('.tips').tooltipster({
-  animation: 'fade',
-  delay: 200,
-});
+
 
 
 
