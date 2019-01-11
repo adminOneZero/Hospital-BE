@@ -22,18 +22,20 @@
                   <input title="Search here by keywords" type="text" class=""  placeholder=" ابحث من هنا ">
               </div>
                   <button title="Search" type="submit" class="btn btn-w "><i class="fas fa-search move-h" style="transform: rotate(3) !important;"></i></button>
-                  <button title="add new clinics" data-modal="clinics" type="button" name="button" class="btn btn-w  trigger mr-4"><i class="fas fa-plus-circle move-h" style="transform: rotate(3) !important;"></i></button>
+                  <button title="add new clinics" data-modal="clinics" type="button" name="button" class="btn btn-w  adding mr-4"><i class="fas fa-plus-circle move-h" style="transform: rotate(3) !important;"></i></button>
               </form>
           </span>
       </div>
 
-<div class="mod" data-page-name="doctors" id="page" dir="rtl">
+<div class="mod" data-page-name="clinics" id="page" dir="rtl">
   <div class="add_items">
     <form action="" method="post" class="">
       <p> <span title="clinic ID"> رقم الجهه/العياده </span>  <input type="text" name="clinic_id" value="" placeholder=" رقم الجهه "> </p>
       <p> <span title="clinic name in Arabic"> اسم الجهه/العياده بالعربي </span>  <input type="text" name="ar_name" value="" placeholder=" اسم الجهه بالعربي "> </p>
       <p> <span title="clinic name in English"> اسم الجهه/العياده بالانجليزيه </span>  <input type="text" name="en_name" value="" placeholder=" اسم الجهه بالانجليزيه " style="position: relative;bottom:25px;"> </p>
-      <button type="button" id="save_btn" title="Save" class="btn btn-f tips" name="save" value=" حفظ " name="button"> حفظ </button>
+      <input type="hidden" name="db_id" value="">
+      <button type="button" data-action="" id="reload_page" title="Reload page" class="btn btn-f tips ml-2" name="save" value=" حفظ " name="button"><i class="fas fa-redo-alt"></i></button>
+      <button type="button" data-action="" id="save_btn" title="Save" class="btn btn-f tips" name="save" value=" حفظ " name="button"> حفظ </button>
     </form>
   </div>
 </div>
@@ -60,11 +62,19 @@
 
         <tr>
         <td>{{ loop.index }}</td>
-        <td> {{item[1] }} </td>
-        <td> {{item[2]}} </td>
-        <td> {{item[3]}} </td>
-        <td title="Edit" ><a data-icon="{{item[0] }}" id="edit" href="#"class="far fa-edit move-rotate"></a></td>
-        <td title="Delete" ><a data-icon="{{item[0] }}" id="delete" href="#"class="fas fa-trash move-rotate"></a></td>
+        <td> {{ item[1] }} </td>
+        {% if item[2] != '' %}
+        <td> {{ item[2] }} </td>
+        {% else %}
+        <td><strong> غير متوفر </strong></td>
+        {% endif %}
+        {% if item[3] != '' %}
+        <td> {{ item[3] }} </td>
+        {% else %}
+        <td><strong> غير متوفر </strong></td>
+        {% endif %}
+        <td title="Edit" ><a data-edit_id="{{item[0] }}"  href="#" class="far fa-edit move-rotate edit"></a></td>
+        <td title="Delete" ><a data-delete_id="{{item[0] }}" href="#" class="fas fa-trash move-rotate delete"></a></td>
         </tr>
         {% endfor %}
 

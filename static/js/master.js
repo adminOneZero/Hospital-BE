@@ -87,8 +87,13 @@ if ($('.mod').attr('data-page-name') == 'users') {
   });
 }
 
-$(document).on('click', '.trigger', function (event) {
+$(document).on('click', '.adding', function (event) {
   event.preventDefault();
+  $('#save_btn').attr('data-action','add')
+  $('form input[name=clinic_id]').val('');
+  $('form input[name=ar_name]').val('');
+  $('form input[name=en_name]').val('');
+
   if (this.dataset.modal == 'doctors') {
 
     $('.mod').iziModal('open');
@@ -118,7 +123,9 @@ $(document).on('click', '.trigger', function (event) {
 });
 
 
-
+$('#reload_page').on('click',function(){
+   location.reload();
+});
 
 
 });
