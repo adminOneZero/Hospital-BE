@@ -167,3 +167,9 @@
 .mod p{
   font-size: 1.1em;
 }
+
+/***********************search result***********************/
+
+#search_result table{
+  padding: 50px 50px 50px 50px;
+}

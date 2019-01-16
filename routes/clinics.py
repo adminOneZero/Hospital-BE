@@ -5,6 +5,7 @@ from requires import login_required
 from db import Connection
 clinics = Blueprint('clinics', __name__)
 
+# clinics page
 @clinics.route('/clinics')
 @login_required
 def clinics_func():
@@ -14,7 +15,7 @@ def clinics_func():
     clinic_data = cursor.fetchall()
     return render_template('admin/clinics.html',clinic_data=clinic_data)
 
-
+# add new clinic
 @clinics.route('/api/clinics/add',methods=['POST'])
 @login_required
 def clinics_add():
@@ -50,11 +51,12 @@ def clinics_add():
     return jsonify({'message':' اعد تحميل الصفحه ','MSG_type':'danger'})
 
 
+# get clinic data for editing
 @clinics.route('/api/clinics/edit',methods=['POST'])
 @login_required
 def clinics_edit():
     clinic_id = request.form['clinic_id']
-    # if id is valid
+    # if clinic id is valid
     numbers = ['1','2','3','4','5','6','7','8','9','0']
     check_clinic_id = [i for i in clinic_id]
     for i in check_clinic_id:
@@ -65,7 +67,6 @@ def clinics_edit():
     q = """SELECT * FROM ClinicList WHERE id = '{0}' """.format(clinic_id)
     result = cursor.execute(q)
     data = cursor.fetchone()
-    # current_app.logger.info(data)
     clinic_data = {
     'id': data[0],
     'clinic_id': data[1],
@@ -74,7 +75,7 @@ def clinics_edit():
     }
     return jsonify(clinic_data)
 
-
+# update clinic data
 @clinics.route('/api/clinics/update',methods=['POST'])
 @login_required
 def clinics_update():
@@ -107,6 +108,7 @@ def clinics_update():
         return jsonify({'message':' رقم العياده او الجهه مضافه مسبقا ','MSG_type':'warning'})
 
 
+# delete clinics
 @clinics.route('/api/clinics/delete',methods=['POST'])
 @login_required
 def clinics_delete():
@@ -115,7 +117,56 @@ def clinics_delete():
     q = """DELETE FROM ClinicList WHERE id="{0}" """.format(db_id)
     result = cursor.execute(q)
     conn.commit()
-    current_app.logger.info(result)
     if result == 1:
         return jsonify({'message':' تم الحذف بنجاح ','MSG_type':'success'})
     return jsonify({'message':' لما يتم الحذف ','MSG_type':'danger'})
+
+
+# search about clinics
+@clinics.route('/api/clinics/search',methods=['POST','GET'])
+@login_required
+def clinics_search():
+    search = request.form['search'].encode('utf8')
+    if search == '':
+        return jsonify({'message':' اكتب كلمه البحث ','MSG_type':'warning'})
+
+    # if search keyword just a numbers get clinic id fro db
+    search_keyword = [i for i in search]
+    numbers = ['1','2','3','4','5','6','7','8','9','0']
+    for i in search_keyword:
+        if i not in numbers :
+            break
+        else:
+            cursor , conn = Connection()
+            # search into db
+            q = """ SELECT * FROM ClinicList WHERE clinic_id = {0}""".format(search)
+            result = cursor.execute(q)
+            row = cursor.fetchone()
+            if result == 1: # if data found go and jsonify this data
+                search_data = [{
+                'db_id': row[0],
+                'clinic_id': row[1],
+                'ar_name': row[2],
+                'en_name': row[3]
+                }]
+                return jsonify(search_data) # return all data founds
+
+    cursor , conn = Connection()
+    # search into db
+    q = """ SELECT * FROM ClinicList WHERE en_name LIKE '%{0}%' OR  ar_name LIKE '%{0}%' LIMIT 10""".format(search)
+    result = cursor.execute(q)
+    rows = cursor.fetchall() # get all data
+    conn.commit()
+
+    if result > 0: # if data found go and jsonify this data
+        search_data = [] # append here all data as dictionarys
+        for row in rows : # loop over rows
+            # append to list this dictionary
+            search_data.append( {
+            'db_id': row[0],
+            'clinic_id': row[1],
+            'ar_name': row[2],
+            'en_name': row[3]
+            })
+        return jsonify(search_data) # return all data founds
+    return jsonify({'message':' لاتوجد نتائج ','MSG_type':'warning'})

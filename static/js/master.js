@@ -25,6 +25,7 @@ if ($('.mod').attr('data-page-name') == 'clinics') {
     transitionOutOverlay: 'fadeOut',
     background: '#34495e',
     loop: false,
+    zindex:1,
     radius: 3,
     borderBottom: true,
   });
@@ -39,7 +40,6 @@ if ($('.mod').attr('data-page-name') == 'medicine_service') {
     transitionOutOverlay: 'fadeOut',
     background: '#34495e',
     loop: false,
-    radius: 3,
     borderBottom: true,
   });
 }
@@ -87,13 +87,33 @@ if ($('.mod').attr('data-page-name') == 'users') {
   });
 }
 
+
+// modaliz search results
+$("#search_result").iziModal({
+  title: ' البحث ',
+  subtitle: ' نتائج البحث ',
+  headerColor: 'rgb(0,0,10,0.7)',
+  background: 'rgb(30,50,70,0.8)',
+  transitionOutOverlay: 'fadeOut',
+  loop: false,
+  width: '70%',
+  padding:'10px 50px 10px 50px',
+  radius: 3,
+  borderBottom: true,
+});
+
+
+// on all page when click on add icon check the current page name
+// and open its right modal
 $(document).on('click', '.adding', function (event) {
   event.preventDefault();
+  // reset inputs value before open
   $('#save_btn').attr('data-action','add')
   $('form input[name=clinic_id]').val('');
   $('form input[name=ar_name]').val('');
   $('form input[name=en_name]').val('');
 
+// check current page name
   if (this.dataset.modal == 'doctors') {
 
     $('.mod').iziModal('open');
@@ -123,6 +143,9 @@ $(document).on('click', '.adding', function (event) {
 });
 
 
+
+
+// reload page btn
 $('#reload_page').on('click',function(){
    location.reload();
 });

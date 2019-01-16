@@ -19,14 +19,14 @@
               <form class="form-inline ">
               <div class="form-group mx-2">
                   <label for="inputPassword2" class="sr-only">Searh</label>
-                  <input title="Search here by keywords" type="text" class=""  placeholder=" ابحث من هنا ">
+                  <input id="search_box" title="Search here by keywords" type="text" class=""  placeholder=" ابحث من هنا ">
               </div>
-                  <button title="Search" type="submit" class="btn btn-w "><i class="fas fa-search move-h" style="transform: rotate(3) !important;"></i></button>
+                  <button title="Search" id="search" class="btn btn-w "><i class="fas fa-search move-h" style="transform: rotate(3) !important;"></i></button>
                   <button title="add new clinics" data-modal="clinics" type="button" name="button" class="btn btn-w  adding mr-4"><i class="fas fa-plus-circle move-h" style="transform: rotate(3) !important;"></i></button>
               </form>
           </span>
       </div>
-
+<!-- adding items -->
 <div class="mod" data-page-name="clinics" id="page" dir="rtl">
   <div class="add_items">
     <form action="" method="post" class="">
@@ -40,52 +40,69 @@
   </div>
 </div>
 
-</div>
+    <div id="search_result" >
+          <table id="search_tables" class="dr_table mb-3 " dir="rtl" >
+            <thead>
+              <tr>
+                <th>#</th>
+                <th title="clinic ID"> رقم الجهه / العياده </th>
+                <th title="clinic name in Arabic"> اسم الجهه / العياده : بالعربي </th>
+                <th title="clinic name in English"> اسم الجهه / العياده : بالنجليزي </th>
+                <th title="Delete"> تعديل </th>
+                <th title="Edit"> حذف </th>
+              </tr>
+            </thead>
+            <tbody id="search_table">
+        <!-- data -->
+            </tbody>
+          </table>
+      </div>
 
-  <div class="row">
-    <div class="col-xl-12" >
-
-
-      <table class="dr_table mb-3 " dir="rtl" >
-        <thead>
-          <tr>
-            <th>#</th>
-            <th title="clinic ID"> رقم الجهه / العياده </th>
-            <th title="clinic name in Arabic"> اسم الجهه / العياده : بالعربي </th>
-            <th title="clinic name in English"> اسم الجهه / العياده : بالنجليزي </th>
-            <th title="Delete"> تعديل </th>
-            <th title="Edit"> حذف </th>
-          </tr>
-        </thead>
-        <tbody>
-        {% for item in clinic_data %}
-
-        <tr>
-        <td>{{ loop.index }}</td>
-        <td> {{ item[1] }} </td>
-        {% if item[2] != '' %}
-        <td> {{ item[2] }} </td>
-        {% else %}
-        <td><strong> غير متوفر </strong></td>
-        {% endif %}
-        {% if item[3] != '' %}
-        <td> {{ item[3] }} </td>
-        {% else %}
-        <td><strong> غير متوفر </strong></td>
-        {% endif %}
-        <td title="Edit" ><a data-edit_id="{{item[0] }}"  href="#" class="far fa-edit move-rotate edit"></a></td>
-        <td title="Delete" ><a data-delete_id="{{item[0] }}" href="#" class="fas fa-trash move-rotate delete"></a></td>
-        </tr>
-        {% endfor %}
-
-        </tbody>
-      </table>
+      </div>
 
 
+        <div class="row">
+          <div class="col-xl-12" >
 
 
+            <table class="dr_table mb-3 " dir="rtl" >
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th title="clinic ID"> رقم الجهه / العياده </th>
+                  <th title="clinic name in Arabic"> اسم الجهه / العياده : بالعربي </th>
+                  <th title="clinic name in English"> اسم الجهه / العياده : بالنجليزي </th>
+                  <th title="Delete"> تعديل </th>
+                  <th title="Edit"> حذف </th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for item in clinic_data %}
 
+              <tr>
+              <td>{{ loop.index }}</td>
+              <td> {{ item[1] }} </td>
+              {% if item[2] != '' %}
+              <td> {{ item[2] }} </td>
+              {% else %}
+              <td><strong> غير متوفر </strong></td>
+              {% endif %}
+              {% if item[3] != '' %}
+              <td> {{ item[3] }} </td>
+              {% else %}
+              <td><strong> غير متوفر </strong></td>
+              {% endif %}
+              <td title="Edit" ><a data-edit_id="{{item[0] }}"  href="#" class="far fa-edit move-rotate edit"></a></td>
+              <td title="Delete" ><a data-delete_id="{{item[0] }}" href="#" class="fas fa-trash move-rotate delete"></a></td>
+              </tr>
+              {% endfor %}
 
+              </tbody>
+            </table>
+            {% if clinic_data| length == 0 %}
+
+            <p class="text-center bg-danger p-2"> لاتوجد عيادات حاليا </p>
+            {% endif %}
 
 
     </div>

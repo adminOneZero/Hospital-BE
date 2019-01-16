@@ -120,7 +120,7 @@ $('#save_btn').on('click',function(){
 /*************** editing clinics dataset ***************/
 
 // editing a clinic data
-$('.edit').on('click',function(event){
+$(document).on('click','.edit',function(event){
   event.preventDefault();
   $('#save_btn').attr('data-action','update')
 
@@ -138,7 +138,7 @@ $('.edit').on('click',function(event){
       $('form input[name=clinic_id]').val(clinic_id);
       $('form input[name=ar_name]').val(ar_name);
       $('form input[name=en_name]').val(en_name);
-      $('.mod').iziModal('open');
+      $('.mod').iziModal('open',{zindex: 4 });
 
 
     }
@@ -148,8 +148,9 @@ $('.edit').on('click',function(event){
 });
 
 
-// updateing data
-$('#save_btn').on('click',function(){
+// save updateing data
+$(document).on('click','#save_btn',function(){
+  // check current action
 if (this.dataset.action == 'update') {
   console.log(this.dataset.action);
   var db_id =  $('form input[name=db_id]').val();
@@ -178,7 +179,7 @@ if (this.dataset.action == 'update') {
 
 
 // deleting a clinic data
-$('.delete').on('click',function(event){
+$(document).on('click','.delete',function(event){
   event.preventDefault();
 
   var db_id = this.dataset.delete_id
@@ -204,5 +205,55 @@ $('.delete').on('click',function(event){
 
 
 });
+
+
+
+// SEARCH data
+$(document).on('click','#search',function(event){
+  event.preventDefault();
+  var search = $('#search_box').val()
+
+  $.post("/api/clinics/search", { search: search },
+  function(data_search, status){
+
+  if (typeof(data_search) == 'object' && status == 'success') {
+    if (data_search['message']) {
+      flash(data_search['message'],data_search['MSG_type']);
+    }
+
+
+    console.log(typeof data_search[0]);
+    console.log(data_search);
+if (!data_search['message'] &&  typeof data_search[0] != 'undefined' ) {
+  $( '#search_table' ).html('') // reset search table
+  $.each( data_search , function( index , row ) {
+           $( '#search_table' ).append(`
+   <tr>
+       <td><strong>`+index+`</strong></td>
+       <td><strong>`+row['clinic_id']+`</strong></td>
+       <td><strong>`+row['ar_name']+`</strong></td>
+       <td><strong>`+row['en_name']+`</strong></td>
+       <td title="Edit" ><a data-edit_id="`+row['db_id']+`"  href="#" class="far fa-edit move-rotate edit"></a></td>
+       <td title="Delete" ><a data-delete_id="`+row['db_id']+`" href="#" class="fas fa-trash move-rotate delete"></a></td>
+   </tr>
+
+             `);
+          console.log(index);
+       });
+
+  $('#search_result').iziModal('open',{zindex: 3 });
+
+}
+
+
+    }
+  });
+
+
+});
+
+
+
+
 
 });
