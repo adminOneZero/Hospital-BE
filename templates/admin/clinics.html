@@ -101,8 +101,26 @@
             </table>
             {% if clinic_data| length == 0 %}
 
-            <p class="text-center bg-danger p-2"> لاتوجد عيادات حاليا </p>
+            <p class="text-center bg-danger p-2"> لاتوجد عيادات  </p>
             {% endif %}
+
+
+
+            {% if paginate['btn_num'] | length > 1 or paginate['show_btn'] %}
+
+              <div class="pagenation text-center mt-3">
+                  <div class="btn-group" role="group" aria-label="Basic example">
+                      <a href="/clinics/{{ paginate['next'] }}" class="btn btn-p">Next</a>
+                          {% for btn in paginate['btn_num'] | reverse %}
+                              <a href="/clinics/{{ btn }}" class="btn btn-p">{{ btn }}</a>
+                          {% endfor %}
+                      <a href="/clinics/{{ paginate['back'] }}" class="btn btn-p">Back</a>
+                  </div>
+                </div>
+
+              {% endif %}
+
+
 
 
     </div>
@@ -123,5 +141,5 @@
         </footer>
 {% endblock %}
 {% block js %}
-<script src="static/ajax/clinics.js"></script>
+<script src="/static/ajax/clinics.js"></script>
 {% endblock %}

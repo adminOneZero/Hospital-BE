@@ -173,3 +173,20 @@
 #search_result table{
   padding: 50px 50px 50px 50px;
 }
+
+/*********************pagenation*****************/
+
+.pagenation{
+  margin-bottom: 10px;
+}
+.pagenation .btn-p{
+  box-shadow : 10px 5px 15px rgb(0, 0, 0, 0.9);
+  /*background-color: rgb(71, 27, 81, 0.8);*/
+  border-radius: 2px;
+  background-color: rgb(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 4px 10px 4px 10px;
+}
+.pagenation .btn-p:hover{
+  background-color: rgb(50, 50, 50, 0.4);
+}
