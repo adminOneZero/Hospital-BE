@@ -25,6 +25,8 @@ def config() :
         conn.commit()
         cursor.execute("DROP TABLE IF EXISTS ClinicList")
         conn.commit()
+        cursor.execute("DROP TABLE IF EXISTS Services")
+        conn.commit()
 
         cursor.execute("""
         CREATE TABLE IF NOT EXISTS `users` (
@@ -48,6 +50,7 @@ def config() :
         ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
         """)
         conn.commit()
+        # create admin user
         import hashlib
         hash = hashlib.sha512('admin')
         hash = hash.hexdigest()
@@ -56,7 +59,33 @@ def config() :
         conn.commit()
         # clinics table
         query = """
-                CREATE TABLE `ClinicList` ( `id` int(11) NOT NULL AUTO_INCREMENT, `clinic_id` INT(45) DEFAULT NULL, `ar_name` varchar(45) DEFAULT NULL,`en_name` varchar(45) DEFAULT NULL, `IsActive` varchar(45) DEFAULT NULL, `CreatedDate` datetime DEFAULT CURRENT_TIMESTAMP, `username` varchar (45) DEFAULT NULL, PRIMARY KEY (`id`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+            CREATE TABLE `ClinicList` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `clinic_id` INT(45) DEFAULT NULL,
+            `ar_name` varchar(45) DEFAULT NULL,
+            `en_name` varchar(45) DEFAULT NULL,
+            `IsActive` varchar(45) DEFAULT NULL,
+            `CreatedDate` datetime DEFAULT CURRENT_TIMESTAMP,
+            `username` varchar (45) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+        """
+        cursor.execute(query)
+        conn.commit()
+        # create Services table
+        query = """
+            CREATE TABLE `Services` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `serviceCode` int(29) DEFAULT NULL,
+            `serviceAr` varchar(200) DEFAULT NULL,
+            `serviceEN` varchar(200) DEFAULT NULL,
+            `UserID` varchar(200) DEFAULT NULL,
+            `IsActive` varchar(200) DEFAULT NULL,
+            `clinic` varchar(200) DEFAULT NULL,
+            `serviceCosting` varchar(200) DEFAULT NULL,
+            `time` datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             """
         cursor.execute(query)
         conn.commit()

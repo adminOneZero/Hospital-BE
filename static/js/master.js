@@ -109,9 +109,9 @@ $(document).on('click', '.adding', function (event) {
   event.preventDefault();
   // reset inputs value before open
   $('#save_btn').attr('data-action','add')
-  $('form input[name=clinic_id]').val('');
-  $('form input[name=ar_name]').val('');
-  $('form input[name=en_name]').val('');
+  $('form input').val('');
+  $('form input').val('');
+  $('form input').val('');
 
 // check current page name
   if (this.dataset.modal == 'doctors') {
@@ -149,6 +149,10 @@ $(document).on('click', '.adding', function (event) {
 $('#reload_page').on('click',function(){
    location.reload();
 });
+
+
+
+
 
 
 });

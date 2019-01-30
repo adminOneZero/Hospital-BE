@@ -225,7 +225,7 @@ $(document).on('click','#search',function(event){
     console.log(typeof data_search[0]);
     console.log(data_search);
 if (!data_search['message'] &&  typeof data_search[0] != 'undefined' ) {
-  $( '#search_table' ).html('') // reset search table
+  $( '#search_table' ).html('') // reset search table from old data
   $.each( data_search , function( index , row ) {
            $( '#search_table' ).append(`
    <tr>
