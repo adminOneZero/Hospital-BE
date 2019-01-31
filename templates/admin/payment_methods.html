@@ -1,0 +1,128 @@
+{% extends 'admin/includes/admin_header.html' %}
+{% block body %}
+
+
+
+        <div class="container-fluid">
+
+          <!-- Breadcrumbs-->
+          <ol class="breadcrumb table-bg text-white">
+            <li class="breadcrumb-item">
+              <a href="#"> لوحه التحكم </a>
+            </li>
+            <li class="breadcrumb-item active"> طرق الدفع </li>
+          </ol>
+
+<div class="section">
+  <div class="tool-bar " >
+      <div class="search-box">
+          <span class="box-item">
+              <form class="form-inline ">
+              <div class="form-group mx-2">
+                  <label for="inputPassword2" class="sr-only">Searh</label>
+                  <input title="Search box" type="text" class="tips"  placeholder=" ابحث من هنا ">
+              </div>
+                  <button type="submit" class="btn btn-w "><i class="fas fa-search move-h" style="transform: rotate(3) !important;"></i></button>
+                  <button data-modal="doctors" type="button" name="button" class="btn btn-w  trigger mr-4" ><i class="fas fa-plus-circle move-h" style="transform: rotate(3) !important;"></i></button>
+              </form>
+          </span>
+      </div>
+
+<div class="mod" data-page-name="payment" id="page"  dir="rtl">
+  <div class="add_items">
+    <form class="" action="#" method="post" class="text-right">
+
+      <p> <span title="payment methods"> طرق الدفع </span>
+          <span title="monetary" style="float:none;text-align:left;margin-right:10px;"> نقدي </span> <input type="radio" name="payment" value="monetary" style="float:none;text-align:left;vertical-align: middle;">
+          <span title="Deferred" style="float:none;text-align:left;margin-right:10px;"> آجل </span> <input type="radio" name="payment" value="Deferred" style="float:none;text-align:left;vertical-align: middle;">
+      </p>
+      <p> <span title="company name in Arabic"> اسم الشركه بالعربي </span>  <input type="text" name="" value="" placeholder=" اسم الشركه بالعربي "> </p>
+      <p> <span title="company name in English"> اسم الشركه بالانجليزي </span>  <input type="text" name="" value="" placeholder=" اسم الشركه بالانجليزي "> </p>
+<div>
+      <p class="">
+          <input type="radio" name="money" value="percentage" style="float:none;text-align:right;vertical-align: middle;margin: 0px 10px 0px 5px;"> <span style="float:none;text-align:right;" title="percent"> نسبه مئويه </span>  <input style="width:50px;" type="text" name="percentage" value="" placeholder="100%" title="Percentage"> <small>%</small>
+          <input type="radio" name="money" value="static" style="float:none;text-align:right;vertical-align: middle;margin: 0px 10px 0px 5px;"> <span style="float:none;text-align:right;" title="static cost"> رقم ثابت </span>   <input style="width:50px;" type="text" name="static" value="" placeholder="100$" title="static number"> <small>$</small>
+      </p>
+</div>
+
+      <input title="Save" class="btn btn-f tips" type="submit" name="save" value=" حفظ ">
+    </form>
+  </div>
+
+
+</div>
+
+
+</div>
+
+  <div class="row">
+    <div class="col-xl-12" >
+
+     اسم الشركه بالعربي
+
+
+      <table class="dr_table mb-3 " dir="rtl" >
+        <thead>
+          <tr>
+            <th>#</th>
+            <th title="company name in Arabic"> اسم الشركه بالعربي </th>
+            <th title="company name in English"> اسم الشركه بالانجليزي </th>
+            <th title="payment methods">  طرق الدفع </th>
+            <th title="cost"> القيمه </th>
+            <th title="Edit"> تعديل </th>
+            <th title="Delete"> حذف </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td> التامين الصحي </td>
+            <td> any </td>
+            <td> نقدي </td>
+            <td> 677 </td>
+            <td><a href="#"class="far fa-edit move-rotate"></a></td>
+            <td><a href="#"class="fas fa-trash move-rotate"></a></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td> التامين الصحي </td>
+            <td> any </td>
+            <td> اجل </td>
+            <td> 677 </td>
+            <td><a href="#"class="far fa-edit move-rotate"></a></td>
+            <td><a href="#"class="fas fa-trash move-rotate"></a></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td> التامين الصحي </td>
+            <td> any </td>
+            <td> اجل </td>
+            <td> 677 </td>
+            <td><a href="#"class="far fa-edit move-rotate"></a></td>
+            <td><a href="#"class="fas fa-trash move-rotate"></a></td>
+          </tr>
+        </tbody>
+      </table>
+
+
+    </div>
+  </div>
+</div>
+
+
+        </div>
+        <!-- /.container-fluid -->
+
+        <!-- Sticky Footer -->
+        <footer class="sticky-footer">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright © Your Website 2018</span>
+            </div>
+          </div>
+        </footer>
+
+{% endblock %}
+{% block js %}
+<script src="/static/ajax/payment.js"></script>
+{% endblock %}
