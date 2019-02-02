@@ -5,55 +5,42 @@ from requires import login_required
 from db import Connection
 from codecs import encode
 from flask_paginate import Pagination, get_page_parameter
+from lib import pagination
 services = Blueprint('services', __name__)
+
 
 @services.route('/services/')
 @login_required
 def services_home(offset = 1):
-    services_result_prepage = current_app.config['services_result_prepage'] # numbers of items in one page
+    inOnePage = current_app.config['resultsInOnePage'] # numbers of items in one page
+    services = pagination(inOnePage,'Services') pagination object
+    paginate = {}
+
+    # get all services data as page number one
     cursor , conn = Connection() # open Connection to db
-    q = """select * from Services LIMIT {0}""".format(services_result_prepage) # get just limit rows
+    q = """select * from Services LIMIT {0}""".format(inOnePage)
     result = cursor.execute(q)
     services_data = cursor.fetchall() # get all rows
 
-    # count all rows in services table to show page btn's or not in html
-    q = """select count(*) from Services"""
-    result = cursor.execute(q)
-    numOfRows = cursor.fetchall()
-    db_itmes = numOfRows[0][0] # all rows in services table
-    # current_app.logger.info(db_itmes)
+    # numbers of pages or bottoms
+    paginate['btn_num'] = services.paginate()
+    if paginate['btn_num'] == [1] :
+        paginate['show_btn'] = False
+    else:
+        paginate['show_btn'] = True
 
-    # set variables of paginate system
-    from math import ceil
-    paginate = {}
-    btn_bar = int(ceil(db_itmes / float(services_result_prepage)))
-    btn_bar = range(1,btn_bar+1) # numbers of bottoms for paginate system
-    paginate['btn_num'] = btn_bar
-    # current_app.logger.info(paginate['btn_num'])
-    if paginate['btn_num'] == [] :
-        paginate['btn_num'] = [1] # numbers of bottoms for paginate system
     paginate['back'] = 1
     paginate['next'] = 2
-
-    # if items in database bigger than number of items we need in one page
-    # show pagenate bottoms in html
-    # current_app.logger.info(db_itmes)
-    if db_itmes > services_result_prepage:
-        paginate['show_btn'] = True
-    else:
-        paginate['show_btn'] = False
-
 
 
     # get all clinic to show them
     q = """select ar_name,en_name from ClinicList """ # get just limit rows
     result = cursor.execute(q)
     clinics = cursor.fetchall() # get all rows
-    # current_app.logger.info(services)
 
+    current_app.logger.info(paginate)
 
     return render_template('admin/services.html',services_data=services_data,paginate=paginate,clinics=clinics)
-
 
 
 # services page with page parameters
@@ -61,7 +48,9 @@ def services_home(offset = 1):
 @login_required
 def services_func(offset = 1):
     # the nubers of services items we need in one page
-    services_result_prepage = current_app.config['services_result_prepage']
+    inOnePage = current_app.config['resultsInOnePage']
+    services = pagination(inOnePage,'Services') # pagination object
+
     # handle ValueError if user giv us string
     try:
         offset = int(encode(offset, 'utf-8', 'strict'))
@@ -72,33 +61,26 @@ def services_func(offset = 1):
     paginate['next'] = int(offset) + 1
     paginate['back'] = int(offset) - 1
 
-    # if offset page of page that user is need equal one set back and next bottoms values
+    # if offset page of page that user is need equal one
+    # set back and next bottoms to default
     if offset == 1 :
         paginate['back'] = 1
         paginate['next'] = 2
 
-    # get services item for page what user need from page
-    offset = (offset - 1) * int(services_result_prepage)
-    cursor , conn = Connection() # open connection
-    q = """SELECT * FROM Services LIMIT {0} OFFSET {1}""".format(services_result_prepage,offset)
+    # get numbers of bottoms or pages
+    paginate['btn_num'] = services.paginate()
+    paginate['show_btn'] = True # any way
+
+    offset = services.offset(offset) # possion of page in db
+    cursor , conn = Connection() # open Connection to db
+    q = """SELECT * FROM Services LIMIT {0} OFFSET {1}""".format(inOnePage,offset)
     result = cursor.execute(q)
     services_data = cursor.fetchall()
-    # get all rows in table to calculate numbers of pages for html
-    q = """select count(*) from Services"""
-    result = cursor.execute(q)
-    numOfRows = cursor.fetchall()
-    db_itmes = numOfRows[0][0]
-    from math import ceil # Return the ceiling of x as a float
-    btn_bar = int(ceil(db_itmes / float(services_result_prepage))) # number of pages btn bar
-    paginate['btn_num'] = range(1,btn_bar+1)
-    paginate['show_btn'] = True # any where
-    # current_app.logger.info(services_data)
 
-    # get all clinic to show them
-    q = """select ar_name,en_name from ClinicList """ # get just limit rows
+    # get all clinic to show them as list
+    q = """select ar_name,en_name from ClinicList """
     result = cursor.execute(q)
-    clinics = cursor.fetchall() # get all rows
-
+    clinics = cursor.fetchall() # fetch all rows
 
     return render_template('admin/services.html',services_data=services_data,paginate=paginate,clinics=clinics)
 

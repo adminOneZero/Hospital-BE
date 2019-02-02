@@ -20,7 +20,7 @@ app.config['SECRET_KEY'] = '915a2b304e26d134bebddfae78d1ac6542e87436c64d3d7e2e4e
 
 # configrations variable
 app.config['clinics_result_prepage'] = 2
-app.config['services_result_prepage'] = 2
+app.config['resultsInOnePage'] = 2
 
 
 

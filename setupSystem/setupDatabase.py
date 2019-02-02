@@ -90,6 +90,24 @@ def config() :
         cursor.execute(query)
         conn.commit()
 
+        # create payment methods table
+        query = """
+            CREATE TABLE `payment_methods` (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `serviceCode` int(29) DEFAULT NULL,
+            `serviceAr` varchar(200) DEFAULT NULL,
+            `serviceEN` varchar(200) DEFAULT NULL,
+            `UserID` varchar(200) DEFAULT NULL,
+            `IsActive` varchar(200) DEFAULT NULL,
+            `clinic` varchar(200) DEFAULT NULL,
+            `serviceCosting` varchar(200) DEFAULT NULL,
+            `time` datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+            """
+        cursor.execute(query)
+        conn.commit()
+
         # print has.sha1('admin')
         print "All is Done enjoy ^_^"
     except NameError as e:
