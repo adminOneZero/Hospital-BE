@@ -5,46 +5,33 @@ from requires import login_required
 from db import Connection
 from codecs import encode
 from flask_paginate import Pagination, get_page_parameter
+from lib import pagination
+
 clinics = Blueprint('clinics', __name__)
+
 
 @clinics.route('/clinics/')
 @login_required
 def clinics_home(offset = 1):
-    clinics_result_prepage = current_app.config['clinics_result_prepage'] # numbers of items in one page
+    inOnePage = current_app.config['clinicsInOnePage'] # numbers of items in one page
+    clinics = pagination(inOnePage,'ClinicList') # pagination object
+    paginate = {}
+
     cursor , conn = Connection() # open Connection to db
-    q = """select * from ClinicList LIMIT {0}""".format(clinics_result_prepage) # get just limit rows
+    q = """select * from ClinicList LIMIT {0}""".format(inOnePage) # get just limit rows
     result = cursor.execute(q)
     clinic_data = cursor.fetchall() # get all rows
 
-    # count all rows in clinics table to show page btn's or not in html
-    q = """select count(*) from ClinicList"""
-    result = cursor.execute(q)
-    numOfRows = cursor.fetchall()
-    db_itmes = numOfRows[0][0] # all rows in clinics table
-    # current_app.logger.info(db_itmes)
 
-    # set variables of paginate system
-    from math import ceil
-    paginate = {}
-    btn_bar = int(ceil(db_itmes / float(clinics_result_prepage)))
-    btn_bar = range(1,btn_bar+1) # numbers of bottoms for paginate system
-    paginate['btn_num'] = btn_bar
+    paginate['btn_num'] = clinics.paginate()
     # current_app.logger.info(paginate['btn_num'])
-    if paginate['btn_num'] == [] :
-        paginate['btn_num'] = [1] # numbers of bottoms for paginate system
-    # current_app.logger.info(int(round(db_itmes / float(clinics_result_prepage)))+1)
-    # current_app.logger.info(paginate['btn_num'])
-    paginate['back'] = 1
-    paginate['next'] = 2
-
-    # if items in database bigger than number of items we need in one page
-    # show pagenate bottoms in html
-    current_app.logger.info(db_itmes)
-    current_app.logger.info(clinics_result_prepage)
-    if db_itmes > clinics_result_prepage:
+    if paginate['btn_num'] == [1] :
         paginate['show_btn'] = True
     else:
         paginate['show_btn'] = False
+
+    paginate['back'] = 1
+    paginate['next'] = 2
 
     return render_template('admin/clinics.html',clinic_data=clinic_data,paginate=paginate)
 
@@ -54,8 +41,10 @@ def clinics_home(offset = 1):
 @login_required
 def clinics_func(offset = 1):
     # the nubers of clinics items we need in one page
-    clinics_result_prepage = current_app.config['clinics_result_prepage']
-    # handle ValueError if user giv us string
+    inOnePage = current_app.config['clinicsInOnePage'] # numbers of items in one page
+    clinics = pagination(inOnePage,'ClinicList') # pagination object
+    paginate = {}
+
     try:
         offset = int(encode(offset, 'utf-8', 'strict'))
     except ValueError as e:
@@ -71,22 +60,22 @@ def clinics_func(offset = 1):
         paginate['next'] = 2
 
     # get clinics item for page what user need from page
-    offset = (offset - 1) * int(clinics_result_prepage)
+    offset = clinics.offset(offset)
     cursor , conn = Connection() # open connection
-    q = """SELECT * FROM ClinicList LIMIT {0} OFFSET {1}""".format(clinics_result_prepage,offset)
+    q = """SELECT * FROM ClinicList LIMIT {0} OFFSET {1}""".format(inOnePage,offset)
     result = cursor.execute(q)
     clinic_data = cursor.fetchall()
-    # get all rows in table to calculate numbers of pages for html
-    q = """select count(*) from ClinicList"""
-    result = cursor.execute(q)
-    numOfRows = cursor.fetchall()
-    db_itmes = numOfRows[0][0]
-    from math import ceil # Return the ceiling of x as a float
-    btn_bar = int(ceil(db_itmes / float(clinics_result_prepage))) # number of pages btn bar
-    paginate['btn_num'] = range(1,btn_bar+1)
-    paginate['show_btn'] = True # any where
+
+    # all pages in db as bottoms
+    paginate['btn_num'] = clinics.paginate()
+    if paginate['btn_num'] == [1] :
+        paginate['show_btn'] = False
+    else:
+        paginate['show_btn'] = True
 
     return render_template('admin/clinics.html',clinic_data=clinic_data,paginate=paginate)
+
+
 
 # add new clinic
 @clinics.route('/api/clinics/add',methods=['POST'])
