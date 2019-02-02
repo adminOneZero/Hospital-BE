@@ -12,8 +12,8 @@ services = Blueprint('services', __name__)
 @services.route('/services/')
 @login_required
 def services_home(offset = 1):
-    inOnePage = current_app.config['resultsInOnePage'] # numbers of items in one page
-    services = pagination(inOnePage,'Services') pagination object
+    inOnePage = current_app.config['servicesInOnePage'] # numbers of items in one page
+    services = pagination(inOnePage,'Services') # pagination object
     paginate = {}
 
     # get all services data as page number one
@@ -48,7 +48,7 @@ def services_home(offset = 1):
 @login_required
 def services_func(offset = 1):
     # the nubers of services items we need in one page
-    inOnePage = current_app.config['resultsInOnePage']
+    inOnePage = current_app.config['servicesInOnePage']
     services = pagination(inOnePage,'Services') # pagination object
 
     # handle ValueError if user giv us string
