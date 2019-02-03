@@ -27,6 +27,8 @@ def config() :
         conn.commit()
         cursor.execute("DROP TABLE IF EXISTS Services")
         conn.commit()
+        cursor.execute("DROP TABLE IF EXISTS payment_methods")
+        conn.commit()
 
         cursor.execute("""
         CREATE TABLE IF NOT EXISTS `users` (
@@ -94,14 +96,11 @@ def config() :
         query = """
             CREATE TABLE `payment_methods` (
             `id` int(11) NOT NULL AUTO_INCREMENT,
-            `serviceCode` int(29) DEFAULT NULL,
-            `serviceAr` varchar(200) DEFAULT NULL,
-            `serviceEN` varchar(200) DEFAULT NULL,
-            `UserID` varchar(200) DEFAULT NULL,
-            `IsActive` varchar(200) DEFAULT NULL,
-            `clinic` varchar(200) DEFAULT NULL,
-            `serviceCosting` varchar(200) DEFAULT NULL,
-            `time` datetime DEFAULT CURRENT_TIMESTAMP,
+            `methods` varchar(30) DEFAULT NULL,
+            `ar_name` varchar(200) DEFAULT NULL,
+            `en_name` varchar(200) DEFAULT NULL,
+            `discount_type` varchar(200) DEFAULT NULL,
+            `discount` int(10) DEFAULT NULL,
             PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             """
