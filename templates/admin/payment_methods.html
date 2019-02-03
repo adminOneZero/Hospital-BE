@@ -23,12 +23,12 @@
                   <input title="Search box" type="text" class="tips"  placeholder=" ابحث من هنا ">
               </div>
                   <button type="submit" class="btn btn-w "><i class="fas fa-search move-h" style="transform: rotate(3) !important;"></i></button>
-                  <button data-modal="doctors" type="button" name="button" class="btn btn-w  trigger mr-4" ><i class="fas fa-plus-circle move-h" style="transform: rotate(3) !important;"></i></button>
+                  <button data-modal="payment_methods" type="button" name="button" class="btn btn-w  adding trigger mr-4" ><i class="fas fa-plus-circle move-h" style="transform: rotate(3) !important;"></i></button>
               </form>
           </span>
       </div>
 
-<div class="mod" data-page-name="payment" id="page"  dir="rtl">
+<div class="mod" data-page-name="payment_methods" id="page"  dir="rtl">
   <div class="add_items">
     <form class="" action="#" method="post" class="text-right">
 
@@ -39,18 +39,40 @@
       <p> <span title="company name in Arabic"> اسم الشركه بالعربي </span>  <input type="text" name="" value="" placeholder=" اسم الشركه بالعربي "> </p>
       <p> <span title="company name in English"> اسم الشركه بالانجليزي </span>  <input type="text" name="" value="" placeholder=" اسم الشركه بالانجليزي "> </p>
 <div>
-      <p class="">
+      <p class=""> <span> الخصم </span>
           <input type="radio" name="money" value="percentage" style="float:none;text-align:right;vertical-align: middle;margin: 0px 10px 0px 5px;"> <span style="float:none;text-align:right;" title="percent"> نسبه مئويه </span>  <input style="width:50px;" type="text" name="percentage" value="" placeholder="100%" title="Percentage"> <small>%</small>
           <input type="radio" name="money" value="static" style="float:none;text-align:right;vertical-align: middle;margin: 0px 10px 0px 5px;"> <span style="float:none;text-align:right;" title="static cost"> رقم ثابت </span>   <input style="width:50px;" type="text" name="static" value="" placeholder="100$" title="static number"> <small>$</small>
       </p>
 </div>
 
-      <input title="Save" class="btn btn-f tips" type="submit" name="save" value=" حفظ ">
+<button type="button" data-action="" id="reload_page" title="Reload page" class="btn btn-f tips ml-2" name="save" value=" حفظ " name="button"><i class="fas fa-redo-alt"></i></button>
+<button type="button" data-action="add" id="save_btn" title="Save" class="btn btn-f tips" name="save" value=" حفظ " name="button"> حفظ </button>
     </form>
   </div>
 
 
 </div>
+
+
+<div id="search_result" >
+      <table id="search_tables" class="dr_table mb-3 " dir="rtl" >
+        <thead>
+        <tr>
+          <th>#</th>
+          <th title="Service ID">  كود الخدمه  </th>
+          <th title="Service name in English">  اسم الخدمه بالعربي </th>
+          <th title="Service name in Arabic">  اسم الخدمه بالانجليزيه  </th>
+          <th title="clinic">  العيادة  </th>
+          <th title="Service costing">  مبلغ الخدمه </th>
+          <th title="Edit"> تعديل </th>
+          <th title="Delete"> حذف </th>
+        </tr>
+        </thead>
+        <tbody id="search_table">
+                <!-- data -->
+        </tbody>
+      </table>
+  </div>
 
 
 </div>
@@ -124,5 +146,5 @@
 
 {% endblock %}
 {% block js %}
-<script src="/static/ajax/payment.js"></script>
+<script src="/static/ajax/payment_methods.js"></script>
 {% endblock %}

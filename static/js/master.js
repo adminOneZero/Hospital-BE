@@ -57,7 +57,7 @@ if ($('.mod').attr('data-page-name') == 'rooms') {
   });
 }
 
-if ($('.mod').attr('data-page-name') == 'payment') {
+if ($('.mod').attr('data-page-name') == 'payment_methods') {
   $("#page").iziModal({
     title: ' طرق الدفع ',
     subtitle: ' اضف طريقه دفع جديده ',
@@ -129,7 +129,7 @@ $(document).on('click', '.adding', function (event) {
     $('.mod').iziModal('open');
 
   }
-  if (this.dataset.modal == 'payment') {
+  if (this.dataset.modal == 'payment_methods') {
 
     $('.mod').iziModal('open');
 
