@@ -108,10 +108,8 @@ $("#search_result").iziModal({
 $(document).on('click', '.adding', function (event) {
   event.preventDefault();
   // reset inputs value before open
-  $('#save_btn').attr('data-action','add')
-  $('form input').val('');
-  $('form input').val('');
-  $('form input').val('');
+  $('#save_btn').attr('data-action','add');
+  $('form input[type=text]').val('');
 
 // check current page name
   if (this.dataset.modal == 'doctors') {

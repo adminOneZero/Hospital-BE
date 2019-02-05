@@ -100,7 +100,7 @@ def config() :
             `ar_name` varchar(200) DEFAULT NULL,
             `en_name` varchar(200) DEFAULT NULL,
             `discount_type` varchar(200) DEFAULT NULL,
-            `discount` int(10) DEFAULT NULL,
+            `discount_value` int(10) DEFAULT NULL,
             PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             """
