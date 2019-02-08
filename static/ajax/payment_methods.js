@@ -90,12 +90,18 @@ $( document ).ready(function() {
 
       var payment         =  $('form input[name=payment]:checked').val();
       var discount_type   =  $('input[name=discount]:checked').val();
-      var discount_value  =  $('input[name=percentage_input]').val();
+      var discount_value  =  '';
+      // var discount_value  =  $('input[name=percentage_input]').val();
       var ar_name         =  $('form input[name=ar_name]').val();
       var en_name         =  $('form input[name=en_name]').val();
       var Go = true;
 
-
+      // if the type of discount is percentage get the value of percentage input
+      if (discount_type == 'percentage') {
+        discount_value  =  $('input[name=percentage_input]').val();
+      }else{
+        discount_value  =  $('input[name=static_input]').val();
+      }
       // currect errors
       if ( typeof payment == 'undefined') {
         flash(' يجب اختيار طريقه الدفع ','danger');
@@ -105,7 +111,7 @@ $( document ).ready(function() {
       if (typeof discount_type == 'undefined' || discount_value == '' ) {
 
         flash(' لاتوجد اي نسبه خصم ','warning');
-        var discount  = 0 ;
+        var discount_value  = 0 ;
 
       }else{ // if no problem
 

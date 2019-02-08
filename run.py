@@ -21,6 +21,7 @@ app.config['SECRET_KEY'] = '915a2b304e26d134bebddfae78d1ac6542e87436c64d3d7e2e4e
 # configrations variable
 app.config['clinicsInOnePage'] = 2
 app.config['servicesInOnePage'] = 2
+app.config['paymentInOnePage'] = 2
 
 
 

@@ -10,7 +10,16 @@ payment_methods = Blueprint('payment_methods', __name__)
 @payment_methods.route('/payment_methods/')
 @login_required
 def payment_methods_home():
-    return render_template('admin/payment_methods.html')
+    inOnePage = current_app.config['paymentInOnePage'] # numbers of items in one page
+    # start connecion to db
+    cursor , conn = Connection()
+    q = """select * from payment_methods LIMIT {0}""".format(inOnePage) # get just limit rows
+    result = cursor.execute(q)
+    payment_data = cursor.fetchall()
+
+    conn.commit()
+
+    return render_template('admin/payment_methods.html',payment_data=payment_data)
 
 
 # add new clinic

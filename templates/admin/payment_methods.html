@@ -90,39 +90,55 @@
             <th title="company name in Arabic"> اسم الشركه بالعربي </th>
             <th title="company name in English"> اسم الشركه بالانجليزي </th>
             <th title="payment methods">  طرق الدفع </th>
-            <th title="cost"> القيمه </th>
+            <th title="cost"> الخصم </th>
             <th title="Edit"> تعديل </th>
             <th title="Delete"> حذف </th>
           </tr>
         </thead>
         <tbody>
+        {% for payment in payment_data %}
+
           <tr>
-            <td>1</td>
-            <td> التامين الصحي </td>
-            <td> any </td>
-            <td> نقدي </td>
-            <td> 677 </td>
+            <td>{{ loop.index }}</td>
+            <td>{{ payment[2] }}</td>
+            <td>{{ payment[3] }}</td>
+                    {% if payment[1] == 'monetary' %}
+
+                    <td> نقدي </td>
+
+                      {% elif payment[1] == 'deferred' %}
+
+                      <td> آجل </td>
+
+                      {% else %}
+
+                      <td> خطأ </td>
+
+                    {% endif %}
+
+
+
+                    {% if payment[4] == 'percentage' %}
+
+                  <td>{{ payment[5] }}<strong>%</strong></td>
+
+                      {% elif payment[4] == 'static' %}
+
+                    <td>{{ payment[5] }}<strong>$</strong></td>
+
+                      {% else %}
+
+                      <td> خطأ </td>
+
+                    {% endif %}
+
+
+
             <td><a href="#"class="far fa-edit move-rotate"></a></td>
             <td><a href="#"class="fas fa-trash move-rotate"></a></td>
           </tr>
-          <tr>
-            <td>2</td>
-            <td> التامين الصحي </td>
-            <td> any </td>
-            <td> اجل </td>
-            <td> 677 </td>
-            <td><a href="#"class="far fa-edit move-rotate"></a></td>
-            <td><a href="#"class="fas fa-trash move-rotate"></a></td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td> التامين الصحي </td>
-            <td> any </td>
-            <td> اجل </td>
-            <td> 677 </td>
-            <td><a href="#"class="far fa-edit move-rotate"></a></td>
-            <td><a href="#"class="fas fa-trash move-rotate"></a></td>
-          </tr>
+
+          {% endfor %}
         </tbody>
       </table>
 
