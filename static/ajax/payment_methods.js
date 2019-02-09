@@ -91,7 +91,6 @@ $( document ).ready(function() {
       var payment         =  $('form input[name=payment]:checked').val();
       var discount_type   =  $('input[name=discount]:checked').val();
       var discount_value  =  '';
-      // var discount_value  =  $('input[name=percentage_input]').val();
       var ar_name         =  $('form input[name=ar_name]').val();
       var en_name         =  $('form input[name=en_name]').val();
       var Go = true;
@@ -195,6 +194,153 @@ $( document ).ready(function() {
       }
     });
 
+
+  });
+
+
+
+  /*************** editing payment methods dataset ***************/
+
+  // editing a payment methods data
+  $(document).on('click','.edit',function(event){
+    event.preventDefault();
+    $('#save_btn').attr('data-action','update');
+
+    var db_id = this.dataset.edit_id;
+
+
+    $.post("/api/payment_methods/edit", { db_id: db_id },
+    function(data, status){
+      if (typeof(data) == 'object' && status == 'success') {
+
+        var db_id            = data['db_id'];
+        var ar_name          = data['ar_name'];
+        var en_name          = data['en_name'];
+        var method           = data['method'];
+        var discount_type    = data['discount_type'];
+        var discount_value   = data['discount_value'];
+
+        $('form input[name=db_id]').val(db_id);
+        $('form input[name=ar_name]').val(ar_name);
+        $('form input[name=en_name]').val(en_name);
+        $('form input[value='+method+']').attr('checked', 'checked');
+        if (discount_type == 'percentage') {
+          $('form input[value='+discount_type+']').attr('checked', 'checked');
+          $('form input[name=percentage_input]').val(discount_value);
+
+        }else{
+          $('form input[value='+discount_type+']').attr('checked', 'checked');
+          $('form input[name=static_input]').val(discount_value);
+        }
+
+        $('.mod').iziModal('open',{zindex: 4 });
+
+
+      }
+    });
+
+
+  });
+
+
+
+  // save updateing data
+  $(document).on('click','#save_btn',function(){
+    // check current action
+  if (this.dataset.action == 'update') {
+
+    var service_code = $('form input[name=service_code]').val();
+    var service_id   = $('form input[name=db_id]').val();
+    var ar_name      = $('form input[name=ar_name]').val();
+    var en_name      = $('form input[name=en_name]').val();
+    var service_cost = $('form input[name=service_cost]').val();
+    var clinic = $('form select').val()
+    console.log(service_cost);
+    $.post("/api/services/update", { service_code: service_code , service_id : service_id, en_name : en_name , ar_name : ar_name ,service_cost:service_cost,clinic:clinic},
+    function(data, status){
+      if (typeof(data) == 'object' && status == 'success') {
+        if ('message' in data) {
+          flash(data['message'],data['MSG_type']);
+
+
+        }
+
+      }
+
+    });
+
+  }
+
+  });
+
+
+
+
+  // deleting a services data
+  $(document).on('click','.delete',function(event){
+    event.preventDefault();
+
+    var db_id = this.dataset.delete_id
+
+    $.post("/api/services/delete", { db_id: db_id },
+    function(data, status){
+      console.log(data);
+      if (typeof(data) == 'object' && status == 'success') {
+
+      flash(data['message'],data['MSG_type']);
+      if (data['MSG_type'] == 'success') {
+        window.setTimeout(function(){
+          // reload page
+          location.reload();
+
+        }, 4000);
+
+      }
+
+
+      }
+    });
+
+
+  });
+
+
+
+
+
+  // save updateing data
+  $(document).on('click','#save_btn',function(){
+    // check current action
+  if (this.dataset.action == 'update') {
+console.log(this.dataset.action);
+    var payment         =  $('form input[name=payment]:checked').val();
+    var discount_type   =  $('input[name=discount]:checked').val();
+    var discount_value  =  '';
+    var ar_name         =  $('form input[name=ar_name]').val();
+    var en_name         =  $('form input[name=en_name]').val();
+    var db_id           =  $('form input[name=db_id]').val();
+// console.log(db_id);
+
+    if (discount_type == 'percentage') {
+      discount_value  =  $('input[name=percentage_input]').val();
+    }else{
+      discount_value  =  $('input[name=static_input]').val();
+    }
+
+    // console.log(service_cost);
+    $.post("/api/payment_methods/update", { payment:payment ,  discount_type:discount_type ,  discount_value:discount_value ,  ar_name:ar_name ,  en_name:en_name ,db_id:db_id  },
+    function(data, status){
+      if (typeof(data) == 'object' && status == 'success') {
+        if ('message' in data) {
+          flash(data['message'],data['MSG_type']);
+
+        }
+
+      }
+
+    });
+
+  }
 
   });
 

@@ -117,3 +117,64 @@ def payment_methods_delete():
     if result == 1:
         return jsonify({'message':' تم الحذف بنجاح ','MSG_type':'success'})
     return jsonify({'message':' لم يتم الحذق بنجاح ','MSG_type':'danger'})
+
+
+# get payment methods data for editing
+@payment_methods.route('/api/payment_methods/edit',methods=['POST'])
+@login_required
+def payment_edit():
+    db_id = request.form['db_id']
+    # if service id is valid
+    numbers = ['1','2','3','4','5','6','7','8','9','0']
+    check_payment_id = [i for i in db_id]
+    for i in check_payment_id:
+        if i not in numbers:
+            return jsonify({'message':' طلب غير صحيح ','MSG_type':'danger'})
+
+    cursor , conn = Connection()
+    q = """SELECT * FROM payment_methods WHERE id = '{0}' """.format(db_id)
+    result = cursor.execute(q)
+    data = cursor.fetchone()
+    current_app.logger.info(data)
+    service_data = {
+    'db_id': data[0],
+    'method': data[1],
+    'ar_name': data[2],
+    'en_name': data[3],
+    'discount_value': data[5],
+    'discount_type': data[4]
+    }
+    return jsonify(service_data)
+
+
+
+# add new payment method
+@payment_methods.route('/api/payment_methods/update',methods=['POST'])
+@login_required
+def payment_methods_update():
+    numbers          = ['1','2','3','4','5','6','7','8','9','0']
+    db_id            = request.form['db_id'].encode('utf8')
+    ar_name          = request.form['ar_name'].encode('utf8')
+    en_name          = request.form['en_name'].encode('utf8')
+    payment_method   = request.form['payment'].encode('utf8')
+    discount_value   = request.form['discount_value'].encode('utf8')
+    discount_type    = request.form['discount_type'].encode('utf8')
+
+    # check if payment methods input is a number
+    check_is_numbers = [i for i in str(discount_value)]
+    for i in check_is_numbers:
+        # for num not in numbers:
+        if i not in numbers or i == '':
+            return jsonify({'message':' مدخلات غير صحيحه ','MSG_type':'danger'})
+    if  discount_value  == '' or discount_type == '' or ar_name == '' or en_name == '' or payment_method == '' :
+        return jsonify({'message':' مدخلات غير صحيحه ','MSG_type':'danger'})
+
+    # start connecion to db
+    cursor , conn = Connection()
+    q = """UPDATE payment_methods SET methods="{0}", ar_name="{1}", en_name="{2}", discount_type="{3}", discount_value="{4}" WHERE id = "{5}" """.format(payment_method,ar_name,en_name,discount_type,discount_value,db_id)
+    result = cursor.execute(q)
+    conn.commit()
+    if result == 1:
+        return jsonify({'message':' تم التحديث بنجاح ','MSG_type':'success'})
+    else:
+        return jsonify({'message':' فشلت الاتحديث ','MSG_type':'warning'})
