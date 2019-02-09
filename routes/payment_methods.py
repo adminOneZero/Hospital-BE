@@ -4,6 +4,7 @@ from flask import Blueprint, render_template , session , current_app ,\
 from requires import login_required
 from db import Connection
 from codecs import encode
+from lib import pagination
 payment_methods = Blueprint('payment_methods', __name__)
 
 
@@ -11,18 +12,60 @@ payment_methods = Blueprint('payment_methods', __name__)
 @login_required
 def payment_methods_home():
     inOnePage = current_app.config['paymentInOnePage'] # numbers of items in one page
+    paymentMethods = pagination(inOnePage,'payment_methods') # pagination object
+
     # start connecion to db
     cursor , conn = Connection()
     q = """select * from payment_methods LIMIT {0}""".format(inOnePage) # get just limit rows
     result = cursor.execute(q)
     payment_data = cursor.fetchall()
-
     conn.commit()
 
-    return render_template('admin/payment_methods.html',payment_data=payment_data)
+    paginate = {}
+    paginate['btn_num'] = paymentMethods.paginate()
+    if paginate['btn_num'] == [1] :
+        paginate['show_btn'] = True
+    else:
+        paginate['show_btn'] = False
+
+    paginate['back'] = 1
+    paginate['next'] = 2
+
+    return render_template('admin/payment_methods.html',payment_data=payment_data,paginate=paginate)
 
 
-# add new clinic
+@payment_methods.route('/payment_methods/<offset>')
+@login_required
+def payment_methods_func(offset):
+    inOnePage = current_app.config['paymentInOnePage'] # numbers of items in one page
+    paymentMethods = pagination(inOnePage,'payment_methods') # pagination object
+
+    try:
+        offset = int(encode(offset, 'utf-8', 'strict'))
+    except ValueError as e:
+        offset = 1
+
+    paginate = {}
+    # all pages in db as bottoms
+    paginate['btn_num'] = paymentMethods.paginate()
+    paginate['next'] = int(offset) + 1
+    paginate['back'] = int(offset) - 1
+    if offset == 1 :
+        paginate['back'] = 1
+        paginate['next'] = 2
+
+    offset = paymentMethods.offset(offset)
+    # start connecion to db
+    cursor , conn = Connection()
+    q = """SELECT * FROM payment_methods LIMIT {0} OFFSET {1}""".format(inOnePage,offset) # get just limit rows
+    result = cursor.execute(q)
+    payment_data = cursor.fetchall()
+    conn.commit()
+
+    return render_template('admin/payment_methods.html',payment_data=payment_data,paginate=paginate)
+
+
+# add new payment method
 @payment_methods.route('/api/payment_methods/add',methods=['POST'])
 @login_required
 def payment_methods_add():
@@ -33,9 +76,7 @@ def payment_methods_add():
     discount_value   = request.form['discount_value'].encode('utf8')
     discount_type    = request.form['discount_type'].encode('utf8')
 
-    current_app.logger.info(request.form)
-    # return 'yes'
-    # check if clinic is a number
+    # check if payment methods input is a number
     check_is_numbers = [i for i in str(discount_value)]
     for i in check_is_numbers:
         # for num not in numbers:
