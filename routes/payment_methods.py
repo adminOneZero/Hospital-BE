@@ -95,3 +95,25 @@ def payment_methods_add():
         return jsonify({'message':' تمت الاضافه بنجاح ','MSG_type':'success'})
     else:
         return jsonify({'message':' فشلت الاضافه ','MSG_type':'warning'})
+
+
+# delete payment method
+@payment_methods.route('/api/payment_methods/delete',methods=['POST'])
+@login_required
+def payment_methods_delete():
+    db_id = request.form['db_id'].encode('utf8')
+
+    # if id is valid as number
+    numbers = ['1','2','3','4','5','6','7','8','9','0']
+    check_payment_id = [i for i in db_id]
+    for i in check_payment_id:
+        if i not in numbers:
+            return jsonify({'message':' طلب غير صحيح ','MSG_type':'danger'})
+
+    cursor , conn = Connection()
+    q = """DELETE FROM payment_methods WHERE id="{0}" """.format(db_id)
+    result = cursor.execute(q)
+    conn.commit()
+    if result == 1:
+        return jsonify({'message':' تم الحذف بنجاح ','MSG_type':'success'})
+    return jsonify({'message':' لم يتم الحذق بنجاح ','MSG_type':'danger'})

@@ -171,6 +171,33 @@ $( document ).ready(function() {
   });
 
 
+  // deleting a services data
+  $(document).on('click','.delete',function(event){
+    event.preventDefault();
+
+    var db_id = this.dataset.delete_id
+
+    $.post("/api/payment_methods/delete", { db_id: db_id },
+    function(data, status){
+      if (typeof(data) == 'object' && status == 'success') {
+
+      flash(data['message'],data['MSG_type']);
+      if (data['MSG_type'] == 'success') {
+        window.setTimeout(function(){
+          // reload page
+          location.reload();
+
+        }, 4000);
+
+      }
+
+
+      }
+    });
+
+
+  });
+
 
 
 
