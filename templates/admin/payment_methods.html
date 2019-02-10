@@ -20,9 +20,9 @@
               <form class="form-inline ">
               <div class="form-group mx-2">
                   <label for="inputPassword2" class="sr-only">Searh</label>
-                  <input title="Search box" type="text" class="tips"  placeholder=" ابحث من هنا ">
+                  <input title="Search box" id="search_box" type="text" class="tips"  placeholder=" ابحث من هنا ">
               </div>
-                  <button type="submit" class="btn btn-w "><i class="fas fa-search move-h" style="transform: rotate(3) !important;"></i></button>
+                  <button type="submit" id="search" class="btn btn-w "><i class="fas fa-search move-h" style="transform: rotate(3) !important;"></i></button>
                   <button data-modal="payment_methods" type="button" name="button" class="btn btn-w  adding trigger mr-4" ><i class="fas fa-plus-circle move-h" style="transform: rotate(3) !important;"></i></button>
               </form>
           </span>
@@ -59,16 +59,15 @@
 <div id="search_result" >
       <table id="search_tables" class="dr_table mb-3 " dir="rtl" >
         <thead>
-        <tr>
-          <th>#</th>
-          <th title="Service ID">  كود الخدمه  </th>
-          <th title="Service name in English">  اسم الخدمه بالعربي </th>
-          <th title="Service name in Arabic">  اسم الخدمه بالانجليزيه  </th>
-          <th title="clinic">  العيادة  </th>
-          <th title="Service costing">  مبلغ الخدمه </th>
-          <th title="Edit"> تعديل </th>
-          <th title="Delete"> حذف </th>
-        </tr>
+          <tr>
+            <th>#</th>
+            <th title="company name in Arabic"> اسم الشركه بالعربي </th>
+            <th title="company name in English"> اسم الشركه بالانجليزي </th>
+            <th title="payment methods">  طرق الدفع </th>
+            <th title="cost"> الخصم </th>
+            <th title="Edit"> تعديل </th>
+            <th title="Delete"> حذف </th>
+          </tr>
         </thead>
         <tbody id="search_table">
                 <!-- data -->

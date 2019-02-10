@@ -346,5 +346,62 @@ console.log(this.dataset.action);
 
 
 
+  // SEARCH data
+  $(document).on('click','#search',function(event){
+    event.preventDefault();
+    console.log('yes');
+    var search = $('#search_box').val();
+    $.post("/api/payment_methods/search", { search : search },
+    function(data_search, status){
+
+      // message
+    if (typeof(data_search) == 'object' && status == 'success') {
+      if (data_search['message']) {
+        flash(data_search['message'],data_search['MSG_type']);
+      }
+
+      // show result of search
+  if (!data_search['message'] &&  typeof data_search[0] != 'undefined' ) {
+    $( '#search_table' ).html('') // reset search table
+    $.each( data_search , function( index , row ) {
+
+              // check
+              var mark = '';
+              var discount_type = '';
+              if (row['discount_type'] == 'monetary') {
+                mark = '$';
+                discount_value = ' نقدي ';
+              }else {
+                mark = '%';
+                discount_value = ' آجل ';
+              }
+
+
+             $( '#search_table' ).append(`
+
+                    <tr>
+                        <td>`+index+`</td>
+                        <td>`+row['ar_name']+`</td>
+                        <td>`+row['en_name']+`</td>
+                        <td>`+discount_value+`</td>
+                        <td>`+row['discount_value']+`<strong>`+mark+`</strong></td>
+                        <td title="Edit"><a data-edit_id="`+row['db_id']+`" href="#" class="far fa-edit move-rotate edit"></a></td>
+                        <td title="Delete"><a data-delete_id="`+row['db_id']+`" href="#" class="fas fa-trash move-rotate delete"></a></td>
+                    </tr>
+
+               `);
+            console.log(index);
+         });
+
+    $('#search_result').iziModal('open',{zindex: 3 });
+
+  }
+      }
+    });
+
+
+  });
+
+
 
 });

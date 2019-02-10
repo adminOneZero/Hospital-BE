@@ -178,3 +178,36 @@ def payment_methods_update():
         return jsonify({'message':' تم التحديث بنجاح ','MSG_type':'success'})
     else:
         return jsonify({'message':' فشلت الاتحديث ','MSG_type':'warning'})
+
+
+
+# search about payment methods
+@payment_methods.route('/api/payment_methods/search',methods=['POST','GET'])
+@login_required
+def payment_methods_search():
+    search = request.form['search'].encode('utf8')
+    if search == '':
+        return jsonify({'message':' اكتب كلمه البحث ','MSG_type':'warning'})
+
+
+    cursor , conn = Connection()
+    # search into db
+    q = """ SELECT * FROM payment_methods WHERE ar_name LIKE '%{0}%' OR  en_name LIKE '%{0}%' LIMIT 10""".format(search)
+    result = cursor.execute(q)
+    rows = cursor.fetchall() # get all data
+    conn.commit()
+
+    if result > 0: # if data found go and jsonify this data
+        search_data = [] # append here all data as dictionarys
+        for row in rows : # loop over rows
+            # append dictionary to search data list
+            search_data.append({
+            'db_id': row[0],
+            'method': row[1],
+            'ar_name': row[2],
+            'en_name': row[3],
+            'discount_value': row[5],
+            'discount_type': row[4]
+            })
+        return jsonify(search_data) # return all data founds
+    return jsonify({'message':' لاتوجد نتائج ','MSG_type':'warning'})
